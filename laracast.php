@@ -17,7 +17,8 @@ $app->register('sayHelloTo')
     ->addArgument('name', InputArgument::OPTIONAL, 'Your name')
     ->setCode(function(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Hello World');
+        $name = $input->getArgument('name');
+        $output->writeln('<info>Hello, '. $name .'!</info>'); // we can use <comment>
     });
 
 $app->run();

@@ -34,13 +34,18 @@ class NewCommand extends Command
         // What we will do:
         // assert that the folder doesnt't already exist
         $directory = getcwd() . '/' . $input->getArgument('name');
+
+        $output->writeln('<info>Crafting application...</info>');
+        
         $this->assertApplicationDoesNotExist($directory, $output);
             // Dont forget about '$this'
 
         // download nightly version of Laravel
         $this->download($zipFile = $this->makeFileName())
         // extract zip file
-            ->extract($zipFile, $directory);
+            ->extract($zipFile, $directory)
+        // extract zip file
+            ->cleanUp($zipFile);
 
         // alert the user that they are ready to go
         $output->writeln('<comment>Application ready!</comment>');
@@ -77,6 +82,14 @@ class NewCommand extends Command
         $archive->open($zipFile);
         $archive->extractTo($directory);
         $archive->close();
+
+        return $this; // in order to continue chain
+    }
+
+    private function cleanUp($zipFile)
+    {
+        @chmod($zipFile, 0777); // why use @ ???
+        @unlink($zipFile);
 
         return $this; // in order to continue chain
     }

@@ -1,0 +1,29 @@
+#! /usr/bin/env php
+<?php
+// In order to be executable, make
+// chmod +x ./tasks
+
+use Symfony\Component\Console\Application;
+use Acme\ShowCommand;
+
+require 'vendor/autoload.php';
+
+$app = new Application('Task App', '1.0');
+
+try
+{
+    $pdo = new PDO('mysql:host=127.0.0.1;dbname=tasks', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (Exception $exception)
+{
+    echo 'Could not connect to the database';
+    exit(1);
+}
+
+$dbAdapter = new Acme\DatabaseAdapter($pdo);
+
+$app->add(new ShowCommand($dbAdapter));
+
+$app->run();

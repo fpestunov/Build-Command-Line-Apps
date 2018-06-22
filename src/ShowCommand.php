@@ -34,7 +34,10 @@ class ShowCommand extends Command
 
     private function showTasks(OutputInterface $output)
     {
-        $tasks = $this->database->fetchAll('tasks');
+        if ( ! $tasks = $this->database->fetchAll('tasks'))
+        {
+            return $output->writeln('<info>No tasks at the moment!</info>');
+        }
 
         $table = new Table($output);
 

@@ -1,24 +1,13 @@
 <?php
 namespace Acme;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Acme\DatabaseAdapter;
-use Symfony\Component\Console\Helper\Table;
 
 class ShowCommand extends Command
 {
-    private $database;
-
-    public function __construct(DatabaseAdapter $database)
-    {
-        $this->database = $database;
-
-        parent::__construct();
-    }
 
     public function configure()
     {
@@ -30,20 +19,6 @@ class ShowCommand extends Command
     {
         $this->showTasks($output);
 
-    }
-
-    private function showTasks(OutputInterface $output)
-    {
-        if ( ! $tasks = $this->database->fetchAll('tasks'))
-        {
-            return $output->writeln('<info>No tasks at the moment!</info>');
-        }
-
-        $table = new Table($output);
-
-        $table->setHeaders(['Id', 'Description'])
-            ->setRows($tasks)
-            ->render();
     }
 
 }

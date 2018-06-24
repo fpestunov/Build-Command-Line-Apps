@@ -5,8 +5,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Acme\DatabaseAdapter;
-use Symfony\Component\Console\Helper\Table;
 
 class AddCommand extends Command
 {
@@ -27,6 +25,8 @@ class AddCommand extends Command
         );
 
         $output->writeln('<info>Task Added!</info>');
+
+        $this->showTasks($output);
 
     }
 

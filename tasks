@@ -6,6 +6,7 @@
 use Symfony\Component\Console\Application;
 use Acme\ShowCommand;
 use Acme\AddCommand;
+use Acme\CompleteCommand;
 
 require 'vendor/autoload.php';
 
@@ -27,5 +28,6 @@ $dbAdapter = new Acme\DatabaseAdapter($pdo);
 
 $app->add(new ShowCommand($dbAdapter));
 $app->add(new AddCommand($dbAdapter));
+$app->add(new CompleteCommand($dbAdapter));
 
 $app->run();
